@@ -11,7 +11,6 @@ import com.roni.qeats.repositories.UserRepository;
 import com.roni.qeats.utils.validators.UserValidators;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jdbc.core.JdbcAggregateOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +41,25 @@ public class UserServices {
     }
     Users user = new Users();
     Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.NORMAL_USER)).get();
+    user.getRoles().add(role);
+    user.setUsername(userRequestDTO.getName());
+    user.setEmailId(userRequestDTO.getEmailId());
+    user.setMobileNo(userRequestDTO.getMobileNo());
+    user.setDateOfBirth(userRequestDTO.getDateOfBirth());
+    user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    this.userRepository.save(user);
+    return modelMapper.map(user, UserResponseDTO.class);
+  }
+
+  public UserResponseDTO createAdminRestuarantOwners(UserRequestDTO userRequestDTO) {
+    if(userValidators.checkEmptyFields(userRequestDTO)){
+      throw new InvalidDataException("Fields are blank");
+    }
+    if(userValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && userValidators.validateEmail(userRequestDTO.getEmailId())){
+      throw new InvalidDataException("Email/Mobile Number not correct");
+    }
+    Users user = new Users();
+    Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.ADMIN_USER)).get();
     user.getRoles().add(role);
     user.setUsername(userRequestDTO.getName());
     user.setEmailId(userRequestDTO.getEmailId());
