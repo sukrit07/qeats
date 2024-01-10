@@ -9,8 +9,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,5 +42,8 @@ public class Users extends BaseModel {
       inverseJoinColumns = @JoinColumn(name="role", referencedColumnName = "id")
   )
   private Set<Roles> roles= new HashSet<>();
+
+  @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+  private List<Orders> orderedList;
 
 }

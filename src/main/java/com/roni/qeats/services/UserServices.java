@@ -1,6 +1,7 @@
 package com.roni.qeats.services;
 
 import com.roni.qeats.configs.AppConstants;
+import com.roni.qeats.configs.ExceptionConst;
 import com.roni.qeats.dtos.UserRequestDTO;
 import com.roni.qeats.dtos.UserResponseDTO;
 import com.roni.qeats.exceptions.InvalidDataException;
@@ -34,10 +35,10 @@ public class UserServices {
 
   public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
     if(userValidators.checkEmptyFields(userRequestDTO)){
-      throw new InvalidDataException("Fields are blank");
+      throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
     if(userValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && userValidators.validateEmail(userRequestDTO.getEmailId())){
-      throw new InvalidDataException("Email/Mobile Number not correct");
+      throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
     Users user = new Users();
     Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.NORMAL_USER)).get();
@@ -47,16 +48,17 @@ public class UserServices {
     user.setMobileNo(userRequestDTO.getMobileNo());
     user.setDateOfBirth(userRequestDTO.getDateOfBirth());
     user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+    user.setUserType(userRequestDTO.getUserType());
     this.userRepository.save(user);
     return modelMapper.map(user, UserResponseDTO.class);
   }
 
   public UserResponseDTO createAdminRestuarantOwners(UserRequestDTO userRequestDTO) {
     if(userValidators.checkEmptyFields(userRequestDTO)){
-      throw new InvalidDataException("Fields are blank");
+      throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
     if(userValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && userValidators.validateEmail(userRequestDTO.getEmailId())){
-      throw new InvalidDataException("Email/Mobile Number not correct");
+      throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
     Users user = new Users();
     Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.ADMIN_USER)).get();
