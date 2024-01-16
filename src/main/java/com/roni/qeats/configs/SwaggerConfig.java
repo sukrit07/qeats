@@ -17,7 +17,12 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getInfo())
-				.select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+				.select()
+				.paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("com.roni"))
+				.build()
+				.pathMapping("/")
+				.useDefaultResponseMessages(false);
 	}
 
 	private ApiInfo getInfo() {
@@ -26,4 +31,5 @@ public class SwaggerConfig {
 				"Terms of Service", new Contact("Sukrit", "https://github.com/sukrit07", "sukrit07"
 				+ "@gmail.com"), "License of APIs", "API License URL", Collections.emptyList());
 	}
+
 }

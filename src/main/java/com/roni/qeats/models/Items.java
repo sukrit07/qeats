@@ -1,6 +1,7 @@
 package com.roni.qeats.models;
 
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -16,6 +17,7 @@ public class Items extends BaseModel{
 
   private String delicacyName;
 
+  @ElementCollection
   @Enumerated(value = EnumType.STRING)
   private List<ItemAttributes> attributes;
   private Double price;

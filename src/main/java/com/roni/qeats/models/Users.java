@@ -38,12 +38,6 @@ public class Users extends BaseModel {
   private UserType userType;
 
   @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-  @JoinTable(joinColumns=@JoinColumn(name="user",referencedColumnName = "id"),
-      inverseJoinColumns = @JoinColumn(name="role", referencedColumnName = "id")
-  )
   private Set<Roles> roles= new HashSet<>();
-
-  @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-  private List<Orders> orderedList;
 
 }

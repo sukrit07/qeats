@@ -2,6 +2,7 @@ package com.roni.qeats.configs;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.roni.qeats.exceptions.DuplicateRecordException;
+import com.roni.qeats.exceptions.EntityNotFoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.exception.ConstraintViolationException;
@@ -134,9 +135,9 @@ public class ExceptionInterceptor {
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler(DuplicateRecordException.class)
+	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
-	public ResponseEntity<String> handleEntityNotFoundException(DuplicateRecordException e) {
+	public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
 
 		log.error("Got EntityNotFoundException: ", e);
 

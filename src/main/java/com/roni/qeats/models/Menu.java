@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 public class Menu extends BaseModel{
 
-  @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "menu", cascade = CascadeType.REMOVE)
   private List<Items> items;
 
   @ManyToOne

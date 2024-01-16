@@ -21,7 +21,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	
 	public static final String[] PUBLIC_URLS = {
@@ -33,9 +32,7 @@ public class SecurityConfig {
 			"/swagger-ui/**",
 			"/webjars/**"
 	};
-	
-	@Autowired
-	private UserServices customUserDetailService;
+
 	
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;

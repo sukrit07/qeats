@@ -27,7 +27,7 @@ public class Restaurant extends BaseModel{
   @Column(unique = true)
   private String gstIn;
 
-  @OneToMany(mappedBy = "menus",cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
   private List<Menu> menuList;
 
 
