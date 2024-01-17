@@ -54,6 +54,7 @@ The following guides illustrate how to use some features concretely:
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
+* [Swagger and Spring Security](https://medium.com/turkcell/swagger-with-spring-boot-and-security-cf8585dcf3b2)
 
 
 Users

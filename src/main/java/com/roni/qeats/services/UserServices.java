@@ -9,7 +9,7 @@ import com.roni.qeats.models.Roles;
 import com.roni.qeats.models.Users;
 import com.roni.qeats.repositories.RoleRepository;
 import com.roni.qeats.repositories.UserRepository;
-import com.roni.qeats.utils.validators.UserValidators;
+import com.roni.qeats.utils.validators.DataInputValidators;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +22,7 @@ public class UserServices {
   private UserRepository userRepository;
 
   @Autowired
-  private UserValidators userValidators;
+  private DataInputValidators DataInputValidators;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -34,10 +34,10 @@ public class UserServices {
   private RoleRepository roleRepo;
 
   public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
-    if(userValidators.checkEmptyFields(userRequestDTO)){
+    if(DataInputValidators.checkEmptyFields(userRequestDTO)){
       throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
-    if(userValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && userValidators.validateEmail(userRequestDTO.getEmailId())){
+    if(DataInputValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && DataInputValidators.validateEmail(userRequestDTO.getEmailId())){
       throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
     Users user = new Users();
@@ -54,10 +54,10 @@ public class UserServices {
   }
 
   public UserResponseDTO createAdminRestuarantOwners(UserRequestDTO userRequestDTO) {
-    if(userValidators.checkEmptyFields(userRequestDTO)){
+    if(DataInputValidators.checkEmptyFields(userRequestDTO)){
       throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
-    if(userValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && userValidators.validateEmail(userRequestDTO.getEmailId())){
+    if(DataInputValidators.validateMobileNumber(userRequestDTO.getMobileNo()) && DataInputValidators.validateEmail(userRequestDTO.getEmailId())){
       throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
     Users user = new Users();

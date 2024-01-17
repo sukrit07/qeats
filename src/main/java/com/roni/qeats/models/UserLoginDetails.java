@@ -6,23 +6,39 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserLoginDetails implements UserDetails {
 
-  private Users user;
+  private Object user;
 
-  public UserLoginDetails(Users users){
+  public UserLoginDetails(Object users){
     this.user = users;
   }
 
 
   @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<SimpleGrantedAuthority> authorities =
-        this.user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName())).collect(
-        Collectors.toList());
+  public Collection<? extends GrantedAuthority> getAuthorities() throws ClassCastException {
+    Users userLogin = null;
+    RestaurantEmployee restaurantEmployee = null;
+    List<SimpleGrantedAuthority> authorities = null;
+    try {
+      if (user == Users.class) {
+        userLogin = (Users) this.user;
+        authorities = userLogin.getRoles().stream()
+            .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(
+                Collectors.toList());
+      }
+      if (user == RestaurantEmployee.class) {
+        restaurantEmployee = (RestaurantEmployee) user;
+        authorities =
+            restaurantEmployee.getRoles().stream()
+                .map((role) -> new SimpleGrantedAuthority(role.getName())).collect(
+                    Collectors.toList());
+      }
+    }catch(ClassCastException e){
+      throw e;
+    }
+
     return authorities;
   }
 

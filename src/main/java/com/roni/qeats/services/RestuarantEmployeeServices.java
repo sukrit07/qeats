@@ -8,11 +8,11 @@ import com.roni.qeats.dtos.RestuarantEmployeeResponseDTO;
 import com.roni.qeats.dtos.UserRequestDTO;
 
 import com.roni.qeats.exceptions.InvalidDataException;
-import com.roni.qeats.models.RestuarantEmployee;
+import com.roni.qeats.models.RestaurantEmployee;
 import com.roni.qeats.models.Roles;
 import com.roni.qeats.repositories.RestuarantEmployeeRepository;
 import com.roni.qeats.repositories.RoleRepository;
-import com.roni.qeats.utils.validators.UserValidators;
+import com.roni.qeats.utils.validators.DataInputValidators;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +25,7 @@ public class RestuarantEmployeeServices {
   private RestuarantEmployeeRepository restuarantEmployeeRepository;
 
   @Autowired
-  private UserValidators userValidators;
+  private DataInputValidators DataInputValidators;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -37,63 +37,63 @@ public class RestuarantEmployeeServices {
   private RoleRepository roleRepo;
 
   public RestuarantEmployeeResponseDTO createRestuarantEmployees(RestuarantEmployeeRequestDTO restuarantEmployeeRequestDTO) {
-    if(userValidators.checkEmptyFields(restuarantEmployeeRequestDTO)){
+    if(DataInputValidators.checkEmptyFields(restuarantEmployeeRequestDTO)){
       throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
-    if(userValidators.validateMobileNumber(restuarantEmployeeRequestDTO.getMobileNo()) && userValidators.validateEmail(restuarantEmployeeRequestDTO.getEmailId())){
+    if(DataInputValidators.validateMobileNumber(restuarantEmployeeRequestDTO.getMobileNo()) && DataInputValidators.validateEmail(restuarantEmployeeRequestDTO.getEmailId())){
       throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
-    RestuarantEmployee restuarantEmployee = new RestuarantEmployee();
+    RestaurantEmployee restaurantEmployee = new RestaurantEmployee();
     Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.NORMAL_USER)).get();
-    restuarantEmployee.getRoles().add(role);
-    restuarantEmployee.setUsername(restuarantEmployeeRequestDTO.getName());
-    restuarantEmployee.setEmailId(restuarantEmployeeRequestDTO.getEmailId());
-    restuarantEmployee.setMobileNo(restuarantEmployeeRequestDTO.getMobileNo());
-    restuarantEmployee.setDateOfBirth(restuarantEmployeeRequestDTO.getDateOfBirth());
-    restuarantEmployee.setPassword(this.passwordEncoder.encode(restuarantEmployee.getPassword()));
-    restuarantEmployee.setRestauarantEmployeeTypes(restuarantEmployeeRequestDTO.getRestauarantEmployeeTypes());
-    restuarantEmployee.setUserType(restuarantEmployeeRequestDTO.getUserType());
-    return modelMapper.map(restuarantEmployee, RestuarantEmployeeResponseDTO.class);
+    restaurantEmployee.getRoles().add(role);
+    restaurantEmployee.setUsername(restuarantEmployeeRequestDTO.getName());
+    restaurantEmployee.setEmailId(restuarantEmployeeRequestDTO.getEmailId());
+    restaurantEmployee.setMobileNo(restuarantEmployeeRequestDTO.getMobileNo());
+    restaurantEmployee.setDateOfBirth(restuarantEmployeeRequestDTO.getDateOfBirth());
+    restaurantEmployee.setPassword(this.passwordEncoder.encode(restaurantEmployee.getPassword()));
+    restaurantEmployee.setRestauarantEmployeeTypes(restuarantEmployeeRequestDTO.getRestauarantEmployeeTypes());
+    //restuarantEmployee.setUserType(restuarantEmployeeRequestDTO.getUserType());
+    return modelMapper.map(restaurantEmployee, RestuarantEmployeeResponseDTO.class);
   }
 
   public RestuarantEmployeeResponseDTO createRestuarantOwners(RestuarantEmployeeRequestDTO restuarantEmployeeRequestDTO) {
-    if(userValidators.checkEmptyFields(restuarantEmployeeRequestDTO)){
+    if(DataInputValidators.checkEmptyFields(restuarantEmployeeRequestDTO)){
       throw new InvalidDataException(ExceptionConst.EMPTY_FIELDS);
     }
-    if(userValidators.validateMobileNumber(restuarantEmployeeRequestDTO.getMobileNo()) && userValidators.validateEmail(restuarantEmployeeRequestDTO.getEmailId())){
+    if(DataInputValidators.validateMobileNumber(restuarantEmployeeRequestDTO.getMobileNo()) && DataInputValidators.validateEmail(restuarantEmployeeRequestDTO.getEmailId())){
       throw new InvalidDataException(ExceptionConst.INVALID_FIELDS);
     }
-    RestuarantEmployee restuarantEmployee = new RestuarantEmployee();
+    RestaurantEmployee restaurantEmployee = new RestaurantEmployee();
     Roles role = this.roleRepo.findById(Long.valueOf(AppConstants.ADMIN_USER)).get();
-    restuarantEmployee.getRoles().add(role);
-    restuarantEmployee.setUsername(restuarantEmployeeRequestDTO.getName());
-    restuarantEmployee.setEmailId(restuarantEmployeeRequestDTO.getEmailId());
-    restuarantEmployee.setMobileNo(restuarantEmployeeRequestDTO.getMobileNo());
-    restuarantEmployee.setDateOfBirth(restuarantEmployeeRequestDTO.getDateOfBirth());
-    restuarantEmployee.setPassword(this.passwordEncoder.encode(restuarantEmployee.getPassword()));
-    restuarantEmployee.setRestauarantEmployeeTypes(restuarantEmployeeRequestDTO.getRestauarantEmployeeTypes());
-    restuarantEmployee.setUserType(restuarantEmployeeRequestDTO.getUserType());
-    return modelMapper.map(restuarantEmployee, RestuarantEmployeeResponseDTO.class);
+    restaurantEmployee.getRoles().add(role);
+    restaurantEmployee.setUsername(restuarantEmployeeRequestDTO.getName());
+    restaurantEmployee.setEmailId(restuarantEmployeeRequestDTO.getEmailId());
+    restaurantEmployee.setMobileNo(restuarantEmployeeRequestDTO.getMobileNo());
+    restaurantEmployee.setDateOfBirth(restuarantEmployeeRequestDTO.getDateOfBirth());
+    restaurantEmployee.setPassword(this.passwordEncoder.encode(restaurantEmployee.getPassword()));
+    restaurantEmployee.setRestauarantEmployeeTypes(restuarantEmployeeRequestDTO.getRestauarantEmployeeTypes());
+    //restuarantEmployee.setUserType(restuarantEmployeeRequestDTO.getUserType());
+    return modelMapper.map(restaurantEmployee, RestuarantEmployeeResponseDTO.class);
   }
 
   public RestuarantEmployeeResponseDTO getRestuarantEmployeeDetails(Long userId){
-    RestuarantEmployee restuarantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
-    return modelMapper.map(restuarantEmployee, RestuarantEmployeeResponseDTO.class);
+    RestaurantEmployee restaurantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
+    return modelMapper.map(restaurantEmployee, RestuarantEmployeeResponseDTO.class);
   }
 
   public RestuarantEmployeeResponseDTO editRestuarantEmployeeDetails(Long userId, UserRequestDTO newDetailsUser){
-    RestuarantEmployee restuarantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
-    restuarantEmployee.setUsername(newDetailsUser.getName());
-    restuarantEmployee.setEmailId(newDetailsUser.getEmailId());
-    restuarantEmployee.setMobileNo(newDetailsUser.getMobileNo());
-    restuarantEmployee.setDateOfBirth(newDetailsUser.getDateOfBirth());
-    this.restuarantEmployeeRepository.save(restuarantEmployee);
-    return modelMapper.map(restuarantEmployee, RestuarantEmployeeResponseDTO.class);
+    RestaurantEmployee restaurantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
+    restaurantEmployee.setUsername(newDetailsUser.getName());
+    restaurantEmployee.setEmailId(newDetailsUser.getEmailId());
+    restaurantEmployee.setMobileNo(newDetailsUser.getMobileNo());
+    restaurantEmployee.setDateOfBirth(newDetailsUser.getDateOfBirth());
+    this.restuarantEmployeeRepository.save(restaurantEmployee);
+    return modelMapper.map(restaurantEmployee, RestuarantEmployeeResponseDTO.class);
   }
 
   public String deleteRestuarantEmployee(Long userId){
-    RestuarantEmployee restuarantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
-    this.restuarantEmployeeRepository.delete(restuarantEmployee);
+    RestaurantEmployee restaurantEmployee = this.restuarantEmployeeRepository.findById(userId).get();
+    this.restuarantEmployeeRepository.delete(restaurantEmployee);
     return "Deleted successfully!";
   }
 

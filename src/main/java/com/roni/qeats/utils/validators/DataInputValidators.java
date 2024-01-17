@@ -1,12 +1,13 @@
 package com.roni.qeats.utils.validators;
 
+import com.roni.qeats.dtos.RestaurantRequestDTO;
 import com.roni.qeats.dtos.UserRequestDTO;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class UserValidators {
+public class DataInputValidators {
 
   public Boolean validateEmail(String email){
     String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
@@ -29,5 +30,12 @@ public class UserValidators {
         && null == userRequestDTO.getEmailId()
         && null == userRequestDTO.getMobileNo()
         && null == userRequestDTO.getDateOfBirth());
+  }
+
+  public boolean checkEmptyFieldsRestaurants(RestaurantRequestDTO requestDTO) {
+    return (null == requestDTO.getRestaurantName()
+        && null == requestDTO.getEmailId()
+        && null == requestDTO.getMobileNumber()
+        && null == requestDTO.getGstIn());
   }
 }

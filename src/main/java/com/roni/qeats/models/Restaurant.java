@@ -15,7 +15,7 @@ public class Restaurant extends BaseModel{
 
   private String restaurantName;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.PERSIST)
   private Address address;
 
   @Column(unique = true)
