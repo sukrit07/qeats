@@ -24,24 +24,24 @@ public class RestaurantController{
 
   @PostMapping("/add")
   public ResponseEntity<RestaurantResponseDTO> addRestaurant(@RequestBody RestaurantRequestDTO restaurantRequestDTO){
-    return null;
+    return ResponseEntity.ok(restaurantService.addRestaurant(restaurantRequestDTO));
   }
 
   @GetMapping("/get/{id}")
   public ResponseEntity<RestaurantResponseDTO> getRestaurantDetails(@PathVariable Long id){
-    return null;
+    return ResponseEntity.ok(restaurantService.getRestaurantDetails(id));
   }
 
   @PutMapping("/edit/{id}")
   public ResponseEntity<RestaurantResponseDTO> editRestaurantDetails(@PathVariable Long id,
       @RequestBody RestaurantRequestDTO restaurantRequestDTO){
-    return null;
+    return ResponseEntity.ok(restaurantService.updateRestaurant(id, restaurantRequestDTO));
   }
 
   @DeleteMapping("/delete/{id}")
-  public ResponseEntity<RestaurantResponseDTO> deleteRestaurantDetails(@PathVariable Long id,
+  public ResponseEntity<String> deleteRestaurantDetails(@PathVariable Long id,
       @RequestBody RestaurantRequestDTO restaurantRequestDTO){
-    return null;
+    return ResponseEntity.ok("Restaurant is no longer in our system");
   }
 
 }

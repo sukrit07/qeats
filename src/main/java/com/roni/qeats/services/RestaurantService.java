@@ -6,9 +6,9 @@ import com.roni.qeats.dtos.RestaurantResponseDTO;
 import com.roni.qeats.exceptions.InvalidDataException;
 import com.roni.qeats.models.Address;
 import com.roni.qeats.models.Restaurant;
+import com.roni.qeats.repositories.AddressRepository;
 import com.roni.qeats.repositories.RestaurantRepository;
 import com.roni.qeats.utils.validators.DataInputValidators;
-import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,9 @@ public class RestaurantService {
 
   @Autowired
   private DataInputValidators validators;
+
+  @Autowired
+  private AddressRepository addressRepo;
 
   @Autowired
   private ModelMapper modelMapper;
@@ -52,6 +55,14 @@ public class RestaurantService {
     restaurant.setGstIn(requestDTO.getGstIn());
     restaurant.setMobileNumber(requestDTO.getMobileNumber());
     restaurant.setEmailId(requestDTO.getEmailId());
+
+    Address address = this.addressRepo.findById(requestDTO.getAddress().getId()).get();
+    address.setStreet(requestDTO.getAddress().getStreet());
+    address.setPinCode(requestDTO.getAddress().getPinCode());
+    address.setCity(requestDTO.getAddress().getCity());
+    address.setCountry(requestDTO.getAddress().getCountry());
+    restaurant.setAddress(this.addressRepo.save(address));
+
     restaurant = restaurantRepository.save(restaurant);
     return modelMapper.map(restaurant, RestaurantResponseDTO.class);
   }
