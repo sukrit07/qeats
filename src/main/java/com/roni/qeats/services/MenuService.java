@@ -32,9 +32,6 @@ public class MenuService {
     return mapper.map(menu, MenuResponseDTO.class);
   }
 
-  public MenuResponseDTO updateMenu(MenuRequestDTO menuRequestDTO){
-    return null;
-  }
 
   public MenuResponseDTO getMenu(Long id){
     Optional<Menu> menu = menuRepository.findById(id);
@@ -44,7 +41,8 @@ public class MenuService {
     return mapper.map(menu.get(), MenuResponseDTO.class);
   }
 
-  public MenuResponseDTO deleteMenu(Long menuId){
-    return null;
+  public String deleteMenu(Long menuId){
+    menuRepository.deleteById(menuId);
+    return "Menu delteted!";
   }
 }
